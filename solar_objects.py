@@ -41,6 +41,8 @@ class Star:
     image = None
     """Изображение звезды"""
 
+    def __str__(self):
+        return f"Start x:{self.x} y:{self.y}"
 
 class Planet:
     """Тип данных, описывающий планету.
@@ -80,3 +82,5 @@ class Planet:
 
     image = None
     """Изображение планеты"""
+    def __str__(self):
+        return f"Planet x:{self.x} y:{self.y}"
