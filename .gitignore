@@ -58,3 +58,6 @@ target/
 
 #.idea IDE folder
 /.idea/
+
+#python vitual environment
+venv/
