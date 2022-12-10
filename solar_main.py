@@ -7,6 +7,7 @@ from solar_vis import *
 from solar_model import *
 from solar_input import *
 
+
 perform_execution = False
 """Флаг цикличности выполнения расчёта"""
 
@@ -25,6 +26,8 @@ time_step = None
 space_objects = []
 """Список космических объектов."""
 
+show_trajectory = None
+
 
 def execution():
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
@@ -36,7 +39,7 @@ def execution():
     global displayed_time
     recalculate_space_objects_positions(space_objects, time_step.get())
     for body in space_objects:
-        update_object_position(space, body)
+        update_object_position(space, body, show_trajectory.get())
     physical_time += time_step.get()
     displayed_time.set("%.1f" % physical_time + " seconds gone")
 
@@ -101,6 +104,19 @@ def save_file_dialog():
     write_space_objects_data_to_file(out_filename, space_objects)
 
 
+def clear_space():
+    global space
+    global space_objects
+    space.delete("all")
+    for obj in space_objects:
+        if obj.type == 'star':
+            create_star_image(space, obj)
+        elif obj.type == 'planet':
+            create_planet_image(space, obj)
+        else:
+            raise AssertionError()
+
+
 def main():
     """Главная функция главного модуля.
     Создаёт объекты графического дизайна библиотеки tkinter: окно, холст, фрейм с кнопками, кнопки.
@@ -111,6 +127,7 @@ def main():
     global time_speed
     global space
     global start_button
+    global show_trajectory
 
     print('Modelling started!')
     physical_time = 0
@@ -144,6 +161,15 @@ def main():
     displayed_time.set(str(physical_time) + " seconds gone")
     time_label = tkinter.Label(frame, textvariable=displayed_time, width=30)
     time_label.pack(side=tkinter.RIGHT)
+
+    show_trajectory = tkinter.BooleanVar()
+    trajectory_checkbox = tkinter.Checkbutton(frame, variable=show_trajectory, text='Show path', onvalue=True, offvalue=False)
+    trajectory_checkbox.pack(side=tkinter.BOTTOM)
+
+    clear_button = tkinter.Button(frame, text="Clear", command=clear_space)
+    clear_button.pack(side=tkinter.LEFT)
+
+
 
     root.mainloop()
     print('Modelling finished!')

@@ -98,7 +98,7 @@ def update_system_name(space, system_name):
     space.create_text(30, 80, tag="header", text=system_name, font=header_font)
 
 
-def update_object_position(space, body):
+def update_object_position(space, body, show_trajectory):
     """Перемещает отображаемый объект на холсте.
 
     Параметры:
@@ -113,6 +113,9 @@ def update_object_position(space, body):
         space.coords(body.image, window_width + r, window_height + r,
                      window_width + 2*r, window_height + 2*r)  # положить за пределы окна
     space.coords(body.image, x - r, y - r, x + r, y + r)
+
+    if show_trajectory:
+        space.create_oval([x - 1, y - 1], [x + 1, y + 1], fill=body.color)
 
 
 if __name__ == "__main__":
