@@ -1,6 +1,8 @@
 # coding: utf-8
 # license: GPLv3
 
+import app
+
 gravitational_constant = 6.67408E-11
 """Гравитационная постоянная Ньютона G"""
 
@@ -56,6 +58,8 @@ def recalculate_space_objects_positions(space_objects, dt):
         calculate_force(body, space_objects)
     for body in space_objects:
         move_space_object(body, dt)
+        stat_rec = f"{body.type},{body.x},{body.y},{body.Vx},{body.Vy}"
+        app.stats.append(stat_rec)
 
 
 if __name__ == "__main__":

@@ -6,6 +6,8 @@ from tkinter.filedialog import *
 from solar_vis import *
 from solar_model import *
 from solar_input import *
+import app
+
 
 perform_execution = False
 """Флаг цикличности выполнения расчёта"""
@@ -101,6 +103,16 @@ def save_file_dialog():
     write_space_objects_data_to_file(out_filename, space_objects)
 
 
+def save_stat():
+
+    print("Saving statistic in [stats.txt]...")
+    with open('stats.txt', 'w') as out_file:
+        for line in app.stats:
+            out_file.write(f"{line}\n")
+
+    print(f"Saved {len(app.stats)} records.")
+
+
 def main():
     """Главная функция главного модуля.
     Создаёт объекты графического дизайна библиотеки tkinter: окно, холст, фрейм с кнопками, кнопки.
@@ -139,6 +151,9 @@ def main():
     load_file_button.pack(side=tkinter.LEFT)
     save_file_button = tkinter.Button(frame, text="Save to file...", command=save_file_dialog)
     save_file_button.pack(side=tkinter.LEFT)
+
+    save_stat_button = tkinter.Button(frame, text="Save stat", command=save_stat)
+    save_stat_button.pack(side=tkinter.LEFT)
 
     displayed_time = tkinter.StringVar()
     displayed_time.set(str(physical_time) + " seconds gone")
